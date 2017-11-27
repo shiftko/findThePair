@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Find the pair</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+
+<body>
+
+    <div id="puzzleContainer">
+
+        <div id="puzzleHead">
+
+            <div class="selectSize">
+
+                <div class="firstCol selectCol">
+
+                    <div>
+                        <label><input type="radio" name="size" size="6">&nbsp;6x6</label>
+                    </div>
+
+                    <div>
+                        <label><input type="radio" name="size" size="8">&nbsp;8x8</label>
+                    </div>
+
+                </div>
+
+                <div class="secondCol selectCol">
+
+                    <div>
+                        <label><input type="radio" name="size" size="10">&nbsp;10x10</label>
+                    </div>
+
+                    <div>
+                        <label><input type="radio" name="size" size="12">&nbsp;12x12</label>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="controlBtns">
+
+                <div class="block1 block">
+
+                    <a href="#" id="startBtn" status="start">Start</a>
+
+                    <a href="#" id="pauseBtn">Pause</a>
+
+                </div>
+
+                <div class="block2 block">
+
+                    <a href="#" id="themeSelect">Theme</a>
+
+                    <a href="#" id="scoreBtn">Score</a>
+
+                </div>
+
+            </div>
+
+            <div id="timer">
+                <h1>00:00</h1>
+            </div>
+
+
+
+        </div>
+
+        <div id="puzzleBody"></div>
+
+    </div>
+
+    <script src="images/images.js"></script>
+    <script src="main.js"></script>
+
+</body>
+
+</html>
