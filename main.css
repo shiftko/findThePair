@@ -1,0 +1,113 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+#puzzleContainer {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+}
+
+#puzzleHead {
+    background-color: azure;
+    height: 60px;
+    width: 480px;
+}
+
+#puzzleBody {
+    background-color: aliceblue;
+    height: 480px;
+    width: 480px;
+}
+
+/* work with "selectSize" & "controlBtns" */
+
+#puzzleHead .selectSize {
+    position: absolute;
+    height: inherit;
+    width: 160px;
+    background-color: aqua;
+}
+
+#puzzleHead .controlBtns {
+    position: absolute;
+    left: 160px;
+    right: 80px;
+    height: inherit;
+    background-color: bisque;
+}
+
+#puzzleHead #timer {
+    position: absolute;
+    height: inherit;
+    left: 400px;
+    right: 0;
+    background-color: aquamarine;
+}
+
+/* end */
+
+#puzzleHead .selectSize .selectCol {
+    position: absolute;
+    height: inherit;
+    width: 80px;
+}
+
+#puzzleHead .selectSize .secondCol {
+    left: 80px;
+    background-color: beige;
+}
+
+/* next */
+
+#puzzleHead .selectSize .selectCol div {
+    margin: 8px 10px;
+}
+
+/* end */
+
+#puzzleHead .controlBtns a {
+    text-decoration: none;
+    border: 1px solid #aaa;
+    border-radius: 10px;
+    padding: 0 10px;
+    font-size: 14px;
+    background-color: #aaa;
+    color: azure;
+}
+
+#puzzleHead .block {
+    position: absolute;
+    height: inherit;
+    width: 120px;
+}
+
+#puzzleHead .block2 {
+    left: 120px;
+    background-color: azure;
+}
+
+#puzzleHead a {
+    display: block;
+    margin: 7px 20px;
+    text-align: center;
+}
+
+/* btn end */
+
+#puzzleHead #timer h1 {
+    display: block;
+    height: inherit;
+    line-height: 60px;
+    text-align: center;
+    font-size: 26px;
+}
+
+/* start puzzleBody fillin */
+
+.card {
+    position: absolute;
+    background-color: #dd99ff;
+    border-radius: 6px;
+}
