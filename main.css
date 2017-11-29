@@ -63,6 +63,7 @@
 
 #puzzleHead .selectSize .selectCol div {
     margin: 8px 10px;
+    user-select: none;
 }
 
 /* end */
@@ -98,6 +99,7 @@
 /* btn end */
 
 #puzzleHead #timer h1 {
+    user-select: none;
     display: block;
     height: inherit;
     line-height: 60px;
