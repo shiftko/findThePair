@@ -111,6 +111,7 @@
 
 .card {
     position: absolute;
+    overflow: hidden;
     background-color: #dd99ff;
     border-radius: 6px;
 }

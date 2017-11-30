@@ -50,16 +50,78 @@ CardView.prototype = {
     },
 
     startBtnMeth: function () {
-        console.log('you pressed startBtn'); // delete later
-        this.startBtnEvent.notify({});
+        if (this.checkIfSizeSelected()) {
+            console.log('size is selected');
+        } else {
+            console.log('choose the size of the field please');
+        }
     },
 
     sizeBtnsMeth: function () {
-        console.log('the size you have selected is ' + event.target.getAttribute('size')); // delete later
-        this.selectSizeEvent.notify({
-            size: event.target.getAttribute('size')
-        });
-    }
+        this.drawGrid(event.target.getAttribute('size'));
+    },
+
+    drawGrid: function (size) {
+        if (this.cards.length != 0) {
+            this.clearBody();
+        };
+        for (var i = 0; i < size; i++) {
+            for (var j = 0; j < size; j++) {
+                var card = document.createElement('div');
+                card.className = 'card';
+                card.style.left = (j * 480 / size) + 2 + 'px';
+                card.style.top = (i * 480 / size) + 2 + 60 + 'px';
+                card.style.height = (480 / size) - 4 + 'px';
+                card.style.width = (480 / size) - 4 + 'px';
+
+                this.puzzleBody.appendChild(card);
+            };
+        };
+        this.drawImages();
+    },
+
+    drawImages: function () {
+        var blocksAmount = this.cards.length;
+        var imagesAmount = blocksAmount / 2;
+        var fakeList = [];
+        for (var i = 0; i < blocksAmount; i++) {
+            fakeList[i] = i;
+        };
+        for (var i = 0; i < imagesAmount; i++) {
+            for (var j = 0; j < 2; j++) {
+                var blockNo = Math.round(Math.random() * (fakeList.length - 1));
+                this.setImages(fakeList[blockNo], i);
+                fakeList.splice(blockNo, 1);
+            };
+        };
+    },
+
+    setImages: function (blockNo, imageNo) {
+        var block = this.cards[blockNo];
+        var image = document.createElement('img');
+        image.setAttribute('src', `/images/images/${imgList[imageNo]}`);
+        image.setAttribute('alt', 'img');
+        image.style.height = "100%";
+        image.style.width = "100%";
+        block.appendChild(image);
+    },
+
+    clearBody: function () {
+        var iterations = this.cards.length;
+        for (var i = 0; i < iterations; i++) {
+            this.cards[0].remove();
+        };
+    },
+
+    checkIfSizeSelected: function () {
+        var condition = false;
+        for (var sizeBtn of this.sizeBtns) {
+            if (sizeBtn.checked) {
+                condition = true;
+            };
+        }
+        return condition;
+    },
 
 };
 
