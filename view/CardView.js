@@ -49,13 +49,27 @@ CardView.prototype = {
         return this;
     },
 
+    /* -------------------- startBtn ----------------- */
+
     startBtnMeth: function () {
         if (this.checkIfSizeSelected()) {
             console.log('size is selected');
         } else {
-            console.log('choose the size of the field please');
+            alert('Choose the size of the field please');
         }
     },
+
+    checkIfSizeSelected: function () {
+        var condition = false;
+        for (var sizeBtn of this.sizeBtns) {
+            if (sizeBtn.checked) {
+                condition = true;
+            };
+        }
+        return condition;
+    },
+
+    /* -------------------- sizeBtns ----------------- */
 
     sizeBtnsMeth: function () {
         this.drawGrid(event.target.getAttribute('size'));
@@ -111,16 +125,6 @@ CardView.prototype = {
         for (var i = 0; i < iterations; i++) {
             this.cards[0].remove();
         };
-    },
-
-    checkIfSizeSelected: function () {
-        var condition = false;
-        for (var sizeBtn of this.sizeBtns) {
-            if (sizeBtn.checked) {
-                condition = true;
-            };
-        }
-        return condition;
     },
 
 };
