@@ -60,13 +60,14 @@ CardView.prototype = {
     startBtnMeth: function () {
         if (this.checkIfSizeSelected()) {
             this.tuneBtns();
-            this.flipAllCards();
             if (this.startBtn.getAttribute('status') == 'Start') {
                 this.statusSwitcher(this.startBtn, 'Reset');
                 this.startTimer();
+                this.flipAllCards();
             } else if (this.startBtn.getAttribute('status') == 'Reset') {
                 this.statusSwitcher(this.startBtn, 'Start');
                 this.timerReset();
+                this.resetCards();
             };
         } else {
             alert('Choose the size of the field please');
@@ -108,6 +109,16 @@ CardView.prototype = {
             target.style.pointerEvents = status;
         } else {
             target.style.pointerEvents = '';
+        };
+    },
+
+    /* -------------------- resetCards ----------------- */
+
+    resetCards: function () {
+        for (var sizeBtn of this.sizeBtns) {
+            if (sizeBtn.checked) {
+                this.drawGrid(sizeBtn.getAttribute('size'));
+            }
         };
     },
 
