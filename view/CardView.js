@@ -21,10 +21,15 @@ CardView.prototype = {
     getControl: function () {
         this.startBtn = document.getElementById('startBtn');
         this.pauseBtn = document.getElementById('pauseBtn');
-        this.puzzleBody = document.getElementById('puzzleBody');
+        this.themeSelect = document.getElementById('themeSelect');
+        this.scoreBtn = document.getElementById('scoreBtn');
         this.timer = document.getElementById('timer');
+        this.puzzleBody = document.getElementById('puzzleBody');
         this.sizeBtns = document.querySelectorAll('.selectSize input[name=size]');
         this.cards = document.getElementsByClassName('card');
+
+        this.timerControl;
+        this.gameTime = 0;
 
         return this;
     },
@@ -49,14 +54,22 @@ CardView.prototype = {
         return this;
     },
 
-    /* -------------------- startBtn ----------------- */
+    /* -------------------- startBtnAction ----------------- */
 
     startBtnMeth: function () {
         if (this.checkIfSizeSelected()) {
-            console.log('size is selected');
+            this.tuneBtns();
+            if (this.startBtn.getAttribute('status') == 'Start') {
+                this.statusSwitcher(this.startBtn, 'Reset');
+                this.startTimer();
+                this.flipAllCards();
+            } else if (this.startBtn.getAttribute('status') == 'Reset') {
+                this.statusSwitcher(this.startBtn, 'Start');
+                this.flipAllCards();
+            };
         } else {
             alert('Choose the size of the field please');
-        }
+        };
     },
 
     checkIfSizeSelected: function () {
@@ -69,7 +82,84 @@ CardView.prototype = {
         return condition;
     },
 
-    /* -------------------- sizeBtns ----------------- */
+    statusSwitcher: function (target, status) {
+        var newStatus = document.createTextNode(status);
+        target.removeChild(target.childNodes[0]);
+        target.appendChild(newStatus);
+        target.setAttribute('status', status);
+    },
+
+    tuneBtns: function () {
+        for (var sizeBtn of this.sizeBtns) {
+            if (sizeBtn.disabled) {
+                sizeBtn.disabled = false;
+            } else {
+                sizeBtn.disabled = true;
+            };
+        };
+        this.pointerEventSwitch(this.themeSelect, 'none');
+        this.pointerEventSwitch(this.scoreBtn, 'none');
+        this.pointerEventSwitch(this.pauseBtn, 'auto');
+    },
+
+    pointerEventSwitch: function (target, status) {
+        if (target.style.pointerEvents == '') {
+            target.style.pointerEvents = status;
+        } else {
+            target.style.pointerEvents = '';
+        };
+    },
+
+    /* -------------------- timerWork ----------------- */
+
+    startTimer: function () {
+        var sec = this.gameTime;
+        var timerValue = document.querySelector('#timer h1');
+        this.timerControl = setInterval(function () {
+            sec++;
+            var minutes = Math.trunc(sec / 60);
+            var seconds = sec % 60;
+            var time = minutes + ' ' + ':' + ' ' + seconds;
+            var newTime = document.createTextNode(time);
+            timerValue.removeChild(timerValue.childNodes[0]);
+            timerValue.appendChild(newTime);
+        }, 1000);
+    },
+
+    /* -------------------- cardsFlips ----------------- */
+
+    flipAllCards: function () {
+        for (var card of this.cards) {
+            this.flipCard(card);
+        };
+    },
+
+    flipCard: function (card) {
+        card.animate([
+            {
+                transform: "scaleX(1)"
+            },
+            {
+                transform: "scaleX(0)"
+            },
+            {
+                transform: "scaleX(1)"
+            }
+        ], 600);
+        setTimeout(this.removeImage(card), 300);
+    },
+
+    removeImage: function (card) {
+        return function () {
+            if (card.childNodes[0].style.display == '') {
+                card.childNodes[0].style.display = 'none';
+            } else {
+                card.childNodes[0].style.display = '';
+            };
+        };
+    },
+
+    /* -------------------- sizeBtnsAction ----------------- */
 
     sizeBtnsMeth: function () {
         this.drawGrid(event.target.getAttribute('size'));
