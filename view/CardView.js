@@ -24,6 +24,7 @@ CardView.prototype = {
         this.themeSelect = document.getElementById('themeSelect');
         this.scoreBtn = document.getElementById('scoreBtn');
         this.timer = document.getElementById('timer');
+        this.timerValue = document.querySelector('#timer h1');
         this.puzzleBody = document.getElementById('puzzleBody');
         this.sizeBtns = document.querySelectorAll('.selectSize input[name=size]');
         this.cards = document.getElementsByClassName('card');
@@ -59,13 +60,13 @@ CardView.prototype = {
     startBtnMeth: function () {
         if (this.checkIfSizeSelected()) {
             this.tuneBtns();
+            this.flipAllCards();
             if (this.startBtn.getAttribute('status') == 'Start') {
                 this.statusSwitcher(this.startBtn, 'Reset');
                 this.startTimer();
-                this.flipAllCards();
             } else if (this.startBtn.getAttribute('status') == 'Reset') {
                 this.statusSwitcher(this.startBtn, 'Start');
-                this.flipAllCards();
+                this.timerReset();
             };
         } else {
             alert('Choose the size of the field please');
@@ -114,7 +115,7 @@ CardView.prototype = {
 
     startTimer: function () {
         var sec = this.gameTime;
-        var timerValue = document.querySelector('#timer h1');
+        var timerValue = this.timerValue;
         this.timerControl = setInterval(function () {
             sec++;
             var minutes = Math.trunc(sec / 60);
@@ -124,6 +125,13 @@ CardView.prototype = {
             timerValue.removeChild(timerValue.childNodes[0]);
             timerValue.appendChild(newTime);
         }, 1000);
+    },
+
+    timerReset: function () {
+        clearInterval(this.timerControl);
+        var zeroTime = document.createTextNode('0 : 0');
+        this.timerValue.removeChild(this.timerValue.childNodes[0]);
+        this.timerValue.appendChild(zeroTime);
     },
 
     /* -------------------- cardsFlips ----------------- */
