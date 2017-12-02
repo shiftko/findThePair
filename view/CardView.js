@@ -38,6 +38,7 @@ CardView.prototype = {
     setupHandlers: function () {
         this.startBtnHandler = this.startBtnMeth.bind(this);
         this.sizeBtnsHandler = this.sizeBtnsMeth.bind(this);
+        this.pauseBtnHandler = this.pauseBtnMeth.bind(this);
 
         /* Event Dispatcher */
 
@@ -49,6 +50,7 @@ CardView.prototype = {
         for (var sizeBtn of this.sizeBtns) {
             sizeBtn.addEventListener('click', this.sizeBtnsHandler);
         }
+        this.pauseBtn.addEventListener('click', this.pauseBtnHandler)
 
         /* Event Dispatcher */
 
@@ -236,6 +238,16 @@ CardView.prototype = {
         };
     },
 
-};
+    /* -------------------- pauseBtnMeth ----------------- */
 
-/* --------------------  ----------------- */
+    pauseBtnMeth: function () {
+        if (this.pauseBtn.getAttribute('status') == 'Pause') {
+            this.statusSwitcher(this.pauseBtn, 'Continue');
+            clearInterval(this.timerControl);
+        } else if (this.pauseBtn.getAttribute('status') == 'Continue') {
+            this.statusSwitcher(this.pauseBtn, 'Pause');
+            this.startTimer();
+        };
+    },
+
+};
