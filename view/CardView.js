@@ -1,11 +1,11 @@
 var CardView = function (model) {
     this.model = model;
     this.startBtnEvent = new Event(this);
-    this.resetBtnEvent = new Event(this);
-    this.pauseBtnEvent = new Event(this);
-    this.continueBtnEvent = new Event(this);
-    this.selectSizeEvent = new Event(this);
-    this.selectCardEvent = new Event(this);
+    //    this.resetBtnEvent = new Event(this);
+    //    this.pauseBtnEvent = new Event(this);
+    //    this.continueBtnEvent = new Event(this);
+    //    this.selectSizeEvent = new Event(this);
+    //    this.selectCardEvent = new Event(this);
 
     this.init();
 };
@@ -29,8 +29,7 @@ CardView.prototype = {
         this.sizeBtns = document.querySelectorAll('.selectSize input[name=size]');
         this.cards = document.getElementsByClassName('card');
 
-        this.timerControl;
-        this.gameTime = 0;
+        this.gameTimeControl;
 
         return this;
     },
@@ -40,7 +39,9 @@ CardView.prototype = {
         this.sizeBtnsHandler = this.sizeBtnsMeth.bind(this);
         this.pauseBtnHandler = this.pauseBtnMeth.bind(this);
 
-        /* Event Dispatcher */
+        /* Handlers from Event Dispatcher */
+
+        this.startHandler = this.startTimer.bind(this);
 
         return this;
     },
@@ -54,6 +55,8 @@ CardView.prototype = {
 
         /* Event Dispatcher */
 
+        this.model.startEvent.attach(this.startHandler);
+
         return this;
     },
 
@@ -64,7 +67,7 @@ CardView.prototype = {
             this.tuneBtns();
             if (this.startBtn.getAttribute('status') == 'Start') {
                 this.statusSwitcher(this.startBtn, 'Reset');
-                this.startTimer();
+                this.startBtnEvent.notify();
                 this.flipAllCards();
             } else if (this.startBtn.getAttribute('status') == 'Reset') {
                 this.statusSwitcher(this.startBtn, 'Start');
@@ -127,21 +130,21 @@ CardView.prototype = {
     /* -------------------- timerWork ----------------- */
 
     startTimer: function () {
-        var sec = this.gameTime;
-        var timerValue = this.timerValue;
-        this.timerControl = setInterval(function () {
-            sec++;
-            var minutes = Math.trunc(sec / 60);
-            var seconds = sec % 60;
-            var time = minutes + ' ' + ':' + ' ' + seconds;
-            var newTime = document.createTextNode(time);
-            timerValue.removeChild(timerValue.childNodes[0]);
-            timerValue.appendChild(newTime);
-        }, 1000);
+        this.gameTimeControl = setInterval(this.runTimer.bind(this), 1000);
+    },
+
+    runTimer: function () {
+        this.model.gameTime++;
+        var minutes = Math.trunc(this.model.gameTime / 60);
+        var seconds = this.model.gameTime % 60;
+        var time = minutes + ' ' + ':' + ' ' + seconds;
+        var newTime = document.createTextNode(time);
+        this.timerValue.removeChild(this.timerValue.childNodes[0]);
+        this.timerValue.appendChild(newTime);
     },
 
     timerReset: function () {
-        clearInterval(this.timerControl);
+        clearInterval(this.gameTimeControl);
         var zeroTime = document.createTextNode('0 : 0');
         this.timerValue.removeChild(this.timerValue.childNodes[0]);
         this.timerValue.appendChild(zeroTime);
@@ -243,7 +246,7 @@ CardView.prototype = {
     pauseBtnMeth: function () {
         if (this.pauseBtn.getAttribute('status') == 'Pause') {
             this.statusSwitcher(this.pauseBtn, 'Continue');
-            clearInterval(this.timerControl);
+            clearInterval(this.gameTimeControl);
         } else if (this.pauseBtn.getAttribute('status') == 'Continue') {
             this.statusSwitcher(this.pauseBtn, 'Pause');
             this.startTimer();

@@ -1,34 +1,26 @@
 var CardModel = function () {
-    this.cards = [];
-    this.selectedCards = [];
-    this.addCardEvent = new Event(this);
-    this.selectCardEvent = new Event(this);
-    this.deselectCardEvent = new Event(this);
-    this.deleteCardEvent = new Event(this);
+    this.gameTime;
+    this.userOrder;
+    this.userName;
+    this.startEvent = new Event(this);
 };
 
 CardModel.prototype = {
 
-    addCard: function (card) {
-        this.cards.push(card);
-        this.addCardEvent.notify();
+    start: function () {
+        if (localStorage.getItem('findThePair') == undefined) {
+            this.newUser();
+            this.startEvent.notify();
+        } else {
+
+        };
     },
 
-    getCards: function () {
-        return this.cards;
+    newUser: function () {
+        this.gameTime = 0;
+        this.userOrder = 1;
+        this.userName = 'User' + ' ' + this.userOrder;
     },
-
-    selectCard: function () {
-
-    },
-
-    deselectCard: function () {
-
-    },
-
-    deleteCard: function () {
-
-    }
-}
+};
 
 /* --------------------  ----------------- */
