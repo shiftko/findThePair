@@ -71,6 +71,7 @@ CardView.prototype = {
                 this.flipAllCards();
             } else if (this.startBtn.getAttribute('status') == 'Reset') {
                 this.statusSwitcher(this.startBtn, 'Start');
+                this.statusSwitcher(this.pauseBtn, 'Pause');
                 this.timerReset();
                 this.resetCards();
             };
