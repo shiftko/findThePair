@@ -21,6 +21,11 @@ CardModel.prototype = {
         this.userOrder = 1;
         this.userName = 'User' + ' ' + this.userOrder;
     },
+
+    selectCard: function (card) {
+        console.log(card);
+        console.log('card');
+    }
 };
 
 /* --------------------  ----------------- */

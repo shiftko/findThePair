@@ -14,6 +14,7 @@ CardController.prototype = {
 
     setupHandlers: function () {
         this.startBtnHandler = this.start.bind(this);
+        this.selectCardHandler = this.selectCard.bind(this);
 
         return this;
     },
@@ -21,12 +22,17 @@ CardController.prototype = {
     enable: function () {
 
         this.view.startBtnEvent.attach(this.startBtnHandler);
+        this.view.selectCardEvent.attach(this.selectCardHandler);
 
         return this;
     },
 
     start: function () {
         this.model.start();
+    },
+
+    selectCard: function (sender, args) {
+        this.model.selectCard(args);
     }
 
     /* --------------------  ----------------- */
