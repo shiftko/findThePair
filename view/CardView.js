@@ -50,8 +50,8 @@ CardView.prototype = {
         this.startBtn.addEventListener('click', this.startBtnHandler);
         for (var sizeBtn of this.sizeBtns) {
             sizeBtn.addEventListener('click', this.sizeBtnsHandler);
-        }
-        this.pauseBtn.addEventListener('click', this.pauseBtnHandler)
+        };
+        this.pauseBtn.addEventListener('click', this.pauseBtnHandler);
 
         /* Event Dispatcher */
 
@@ -69,6 +69,8 @@ CardView.prototype = {
                 this.statusSwitcher(this.startBtn, 'Reset');
                 this.startBtnEvent.notify();
                 this.flipAllCards();
+                this.cards = document.getElementsByClassName('card');
+                this.setCardsEvent();
             } else if (this.startBtn.getAttribute('status') == 'Reset') {
                 this.statusSwitcher(this.startBtn, 'Start');
                 this.statusSwitcher(this.pauseBtn, 'Pause');
@@ -181,6 +183,18 @@ CardView.prototype = {
             } else {
                 card.childNodes[0].style.display = '';
             };
+        };
+    },
+
+    setCardsEvent: function () {
+        for (var card of this.cards) {
+            card.addEventListener('click', this.newFunc(this, card));
+        };
+    },
+
+    newFunc: function (instanse, card) {
+        return function () {
+            instanse.flipCard(card);
         };
     },
 
