@@ -6,8 +6,10 @@ var CardModel = function () {
     this.savedCards = [];
     this.cardsOfTwo;
     this.cardsToRemove = [];
+    this.cardsToFlip = [];
 
     this.startEvent = new Event(this);
+    this.cardsToFlipEvent = new Event(this);
 };
 
 CardModel.prototype = {
@@ -52,7 +54,8 @@ CardModel.prototype = {
             this.cardsToRemove.push(this.cardsOfTwo.splice(0, 2));
             setTimeout(this.removeCards.bind(this), 1000);
         } else if (firstSrc != secondSrc) {
-            console.log('different');
+            this.cardsToFlip.push(this.cardsOfTwo.splice(0, 2));
+            this.cardsToFlipEvent.notify();
         }
     },
 

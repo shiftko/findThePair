@@ -43,6 +43,7 @@ CardView.prototype = {
         /* Handlers from Event Dispatcher */
 
         this.startHandler = this.startTimer.bind(this);
+        this.cardsToFlipHandler = this.cardsToFlip.bind(this);
 
         return this;
     },
@@ -57,6 +58,7 @@ CardView.prototype = {
         /* Event Dispatcher */
 
         this.model.startEvent.attach(this.startHandler);
+        this.model.cardsToFlipEvent.attach(this.cardsToFlipHandler);
 
         return this;
     },
@@ -199,6 +201,20 @@ CardView.prototype = {
         this.pointerEventSwitch(event.currentTarget, 'none');
         this.selectCardEvent.notify(event.currentTarget);
         this.flipCard(event.currentTarget);
+    },
+
+    /* -------------------- cardsToFlip ----------------- */
+
+    cardsToFlip: function () {
+        setTimeout(this.flipBackCards.bind(this), 1000);
+    },
+
+    flipBackCards: function () {
+        this.flipCard(this.model.cardsToFlip[0][0]);
+        this.pointerEventSwitch(this.model.cardsToFlip[0][0], 'none');
+        this.flipCard(this.model.cardsToFlip[0][1]);
+        this.pointerEventSwitch(this.model.cardsToFlip[0][1], 'none');
+        this.model.cardsToFlip.splice(0, 1);
     },
 
     /* -------------------- sizeBtnsAction ----------------- */
