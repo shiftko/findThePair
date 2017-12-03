@@ -1,11 +1,11 @@
 var CardView = function (model) {
     this.model = model;
     this.startBtnEvent = new Event(this);
+    this.selectCardEvent = new Event(this);
     //    this.resetBtnEvent = new Event(this);
     //    this.pauseBtnEvent = new Event(this);
     //    this.continueBtnEvent = new Event(this);
     //    this.selectSizeEvent = new Event(this);
-    //    this.selectCardEvent = new Event(this);
 
     this.init();
 };
@@ -196,7 +196,9 @@ CardView.prototype = {
     },
 
     setCard: function () {
-        this.flipCard(event.target);
+        this.pointerEventSwitch(event.currentTarget, 'none');
+        this.selectCardEvent.notify(event.currentTarget);
+        this.flipCard(event.currentTarget);
     },
 
     /* -------------------- sizeBtnsAction ----------------- */
