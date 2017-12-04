@@ -3,6 +3,7 @@ var CardView = function (model) {
     this.startBtnEvent = new Event(this);
     this.selectCardEvent = new Event(this);
     this.resetBtnEvent = new Event(this);
+    this.winEvent = new Event(this);
     //    this.pauseBtnEvent = new Event(this);
     //    this.continueBtnEvent = new Event(this);
     //    this.selectSizeEvent = new Event(this);
@@ -230,7 +231,6 @@ CardView.prototype = {
         this.model.cardsToRemove[0][0].remove();
         this.model.cardsToRemove[0][1].remove();
         this.model.cardsToRemove.splice(0, 1);
-        console.log(this.cards);
         this.checkWinConditions();
     },
 
@@ -240,8 +240,7 @@ CardView.prototype = {
         this.cards = document.getElementsByClassName('card');
         if (this.cards.length == 0) {
             clearInterval(this.gameTimeControl);
-            //here will be event the same as the scoreBtnEvent
-            console.log('you win !!!');
+            this.winEvent.notify();
         };
     },
 

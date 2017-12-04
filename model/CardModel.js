@@ -70,5 +70,11 @@ CardModel.prototype = {
         this.savedCards = [];
         this.cardsToRemove = [];
         this.cardsToFlip = [];
+    },
+
+    /* -------------------- win ----------------- */
+
+    win: function () {
+        console.log('win from model');
     }
 };

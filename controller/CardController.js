@@ -16,6 +16,7 @@ CardController.prototype = {
         this.startBtnHandler = this.start.bind(this);
         this.selectCardHandler = this.selectCard.bind(this);
         this.resetBtnHandler = this.reset.bind(this);
+        this.winHandler = this.win.bind(this);
 
         return this;
     },
@@ -25,6 +26,7 @@ CardController.prototype = {
         this.view.startBtnEvent.attach(this.startBtnHandler);
         this.view.selectCardEvent.attach(this.selectCardHandler);
         this.view.resetBtnEvent.attach(this.resetBtnHandler);
+        this.view.winEvent.attach(this.winHandler);
 
         return this;
     },
@@ -39,6 +41,10 @@ CardController.prototype = {
 
     reset: function () {
         this.model.reset();
+    },
+    
+    win: function () {
+        this.model.win();
     }
 
     /* --------------------  ----------------- */
