@@ -282,9 +282,15 @@ CardView.prototype = {
         if (this.pauseBtn.getAttribute('status') == 'Pause') {
             this.statusSwitcher(this.pauseBtn, 'Continue');
             clearInterval(this.gameTimeControl);
+            for (var card of this.cards) {
+                this.pointerEventSwitch(card, 'none');
+            };
         } else if (this.pauseBtn.getAttribute('status') == 'Continue') {
             this.statusSwitcher(this.pauseBtn, 'Pause');
             this.startTimer();
+            for (var card of this.cards) {
+                this.pointerEventSwitch(card, 'none');
+            };
         };
     },
 

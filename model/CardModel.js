@@ -75,6 +75,5 @@ CardModel.prototype = {
         this.savedCards = [];
         this.cardsToRemove = [];
         this.cardsToFlip = [];
-        this.start();
     }
 };
