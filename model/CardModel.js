@@ -67,7 +67,14 @@ CardModel.prototype = {
 
     attemptsCounter: function () {
         this.numberOfAttempts++;
+    },
+
+    /* -------------------- reset ----------------- */
+
+    reset: function () {
+        this.savedCards = [];
+        this.cardsToRemove = [];
+        this.cardsToFlip = [];
+        this.start();
     }
 };
-
-/* --------------------  ----------------- */

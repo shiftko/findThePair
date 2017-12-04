@@ -15,6 +15,7 @@ CardController.prototype = {
     setupHandlers: function () {
         this.startBtnHandler = this.start.bind(this);
         this.selectCardHandler = this.selectCard.bind(this);
+        this.resetBtnHandler = this.reset.bind(this);
 
         return this;
     },
@@ -23,6 +24,7 @@ CardController.prototype = {
 
         this.view.startBtnEvent.attach(this.startBtnHandler);
         this.view.selectCardEvent.attach(this.selectCardHandler);
+        this.view.resetBtnEvent.attach(this.resetBtnHandler);
 
         return this;
     },
@@ -33,6 +35,10 @@ CardController.prototype = {
 
     selectCard: function (sender, args) {
         this.model.selectCard(args);
+    },
+
+    reset: function () {
+        this.model.reset();
     }
 
     /* --------------------  ----------------- */

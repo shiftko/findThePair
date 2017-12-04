@@ -2,7 +2,7 @@ var CardView = function (model) {
     this.model = model;
     this.startBtnEvent = new Event(this);
     this.selectCardEvent = new Event(this);
-    //    this.resetBtnEvent = new Event(this);
+    this.resetBtnEvent = new Event(this);
     //    this.pauseBtnEvent = new Event(this);
     //    this.continueBtnEvent = new Event(this);
     //    this.selectSizeEvent = new Event(this);
@@ -79,6 +79,7 @@ CardView.prototype = {
                 this.statusSwitcher(this.pauseBtn, 'Pause');
                 this.timerReset();
                 this.resetCards();
+                this.resetBtnEvent.notify();
             };
         } else {
             alert('Choose the size of the field please');
