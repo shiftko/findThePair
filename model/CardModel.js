@@ -1,12 +1,18 @@
 var CardModel = function () {
-    this.gameTime;
+
     this.userOrder;
     this.userName;
     this.numberOfAttempts;
+    this.gameTime;
+    this.score;
+
     this.savedCards = [];
     this.cardsOfTwo;
     this.cardsToRemove = [];
     this.cardsToFlip = [];
+
+    this.savedGame = [];
+    this.currentGameResult;
 
     this.startEvent = new Event(this);
     this.cardsToFlipEvent = new Event(this);
@@ -15,21 +21,36 @@ var CardModel = function () {
 
 CardModel.prototype = {
 
+    /* -------------------- start ----------------- */
+
     start: function () {
-        if (localStorage.getItem('findThePair') == undefined) {
+        this.comonGameConditions();
+        this.setUser();
+        this.startEvent.notify();
+    },
+
+    comonGameConditions: function () {
+        this.gameTime = 0;
+        this.numberOfAttempts = 0;
+    },
+
+    setUser: function () {
+        if (localStorage.getItem('findThePairIvnDmr') == undefined) {
             this.newUser();
-            this.startEvent.notify();
         } else {
-            //here should be the algorithm about what will happened if there are
-            //savings in local storage
+            this.savedGame = JSON.parse(localStorage.getItem('findThePairIvnDmr'));
+            this.nextUser();
         }
     },
 
     newUser: function () {
-        this.gameTime = 0;
         this.userOrder = 1;
         this.userName = 'User' + ' ' + this.userOrder;
-        this.numberOfAttempts = 0;
+    },
+
+    nextUser: function () {
+        this.userOrder = this.savedGame[this.savedGame.length - 1].userOrder + 1;
+        this.userName = 'User' + ' ' + this.userOrder;
     },
 
     /* -------------------- selectCard ----------------- */
@@ -68,13 +89,34 @@ CardModel.prototype = {
 
     reset: function () {
         this.savedCards = [];
-        this.cardsToRemove = [];
         this.cardsToFlip = [];
+        this.cardsToRemove = [];
     },
 
     /* -------------------- win ----------------- */
 
     win: function () {
-        console.log('win from model');
+        this.scoreGenerate();
+        this.collectTheResult();
+        this.saveGameResults();
+    },
+
+    scoreGenerate: function () {
+        this.score = Math.trunc(540000 / (this.numberOfAttempts * 3 + this.gameTime));
+    },
+
+    collectTheResult: function () {
+        this.currentGameResult = {
+            userOrder: this.userOrder,
+            userName: this.userName,
+            gameTime: this.gameTime,
+            numberOfAttempts: this.numberOfAttempts,
+            score: this.score
+        };
+    },
+
+    saveGameResults: function () {
+        this.savedGame.push(this.currentGameResult);
+        localStorage.setItem('findThePairIvnDmr', JSON.stringify(this.savedGame));
     }
 };

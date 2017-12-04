@@ -42,7 +42,7 @@ CardController.prototype = {
     reset: function () {
         this.model.reset();
     },
-    
+
     win: function () {
         this.model.win();
     }
