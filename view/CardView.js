@@ -230,6 +230,19 @@ CardView.prototype = {
         this.model.cardsToRemove[0][0].remove();
         this.model.cardsToRemove[0][1].remove();
         this.model.cardsToRemove.splice(0, 1);
+        console.log(this.cards);
+        this.checkWinConditions();
+    },
+
+    /* -------------------- checkWinConditions ----------------- */
+
+    checkWinConditions: function () {
+        this.cards = document.getElementsByClassName('card');
+        if (this.cards.length == 0) {
+            clearInterval(this.gameTimeControl);
+            //here will be event the same as the scoreBtnEvent
+            console.log('you win !!!');
+        };
     },
 
     /* -------------------- sizeBtnsAction ----------------- */
