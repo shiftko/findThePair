@@ -44,6 +44,7 @@ CardView.prototype = {
 
         this.startHandler = this.startTimer.bind(this);
         this.cardsToFlipHandler = this.cardsToFlip.bind(this);
+        this.cardsToRemoveHandler = this.cardsToRemove.bind(this);
 
         return this;
     },
@@ -59,6 +60,7 @@ CardView.prototype = {
 
         this.model.startEvent.attach(this.startHandler);
         this.model.cardsToFlipEvent.attach(this.cardsToFlipHandler);
+        this.model.cardsToRemoveEvent.attach(this.cardsToRemoveHandler);
 
         return this;
     },
@@ -216,6 +218,18 @@ CardView.prototype = {
         this.flipCard(this.model.cardsToFlip[0][1]);
         this.pointerEventSwitch(this.model.cardsToFlip[0][1], 'none');
         this.model.cardsToFlip.splice(0, 1);
+    },
+
+    /* -------------------- cardsToRemove ----------------- */
+
+    cardsToRemove: function () {
+        setTimeout(this.removeCards.bind(this), 1000);
+    },
+
+    removeCards: function () {
+        this.model.cardsToRemove[0][0].remove();
+        this.model.cardsToRemove[0][1].remove();
+        this.model.cardsToRemove.splice(0, 1);
     },
 
     /* -------------------- sizeBtnsAction ----------------- */

@@ -10,6 +10,7 @@ var CardModel = function () {
 
     this.startEvent = new Event(this);
     this.cardsToFlipEvent = new Event(this);
+    this.cardsToRemoveEvent = new Event(this);
 };
 
 CardModel.prototype = {
@@ -52,17 +53,11 @@ CardModel.prototype = {
         var secondSrc = this.cardsOfTwo[1].childNodes[0].getAttribute('src');
         if (firstSrc == secondSrc) {
             this.cardsToRemove.push(this.cardsOfTwo.splice(0, 2));
-            setTimeout(this.removeCards.bind(this), 1000);
+            this.cardsToRemoveEvent.notify();
         } else if (firstSrc != secondSrc) {
             this.cardsToFlip.push(this.cardsOfTwo.splice(0, 2));
             this.cardsToFlipEvent.notify();
         }
-    },
-
-    removeCards: function () {
-        this.cardsToRemove[0][0].remove();
-        this.cardsToRemove[0][1].remove();
-        this.cardsToRemove.splice(0, 1);
     },
 
     attemptsCounter: function () {
