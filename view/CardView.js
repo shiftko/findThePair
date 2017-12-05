@@ -4,6 +4,7 @@ var CardView = function (model) {
     this.selectCardEvent = new Event(this);
     this.resetBtnEvent = new Event(this);
     this.winEvent = new Event(this);
+    //    this.scoreBtnEvent = new Event(this);
     //    this.pauseBtnEvent = new Event(this);
     //    this.continueBtnEvent = new Event(this);
     //    this.selectSizeEvent = new Event(this);
@@ -40,6 +41,7 @@ CardView.prototype = {
         this.sizeBtnsHandler = this.sizeBtnsMeth.bind(this);
         this.pauseBtnHandler = this.pauseBtnMeth.bind(this);
         this.setCardEventHandler = this.setCard.bind(this);
+        this.scoreBtnHandler = this.scoreBtnMeth.bind(this);
 
         /* Handlers from Event Dispatcher */
 
@@ -56,6 +58,7 @@ CardView.prototype = {
             sizeBtn.addEventListener('click', this.sizeBtnsHandler);
         };
         this.pauseBtn.addEventListener('click', this.pauseBtnHandler);
+        this.scoreBtn.addEventListener('click', this.scoreBtnHandler);
 
         /* Event Dispatcher */
 
@@ -318,6 +321,29 @@ CardView.prototype = {
                 this.pointerEventSwitch(card, 'none');
             };
         };
+    },
+
+    /* -------------------- scoreBtnMeth ----------------- */
+
+    scoreBtnMeth: function () {
+        this.tuneBtns2();
+        if (this.scoreBtn.getAttribute('status') == 'Score') {
+            this.statusSwitcher(this.scoreBtn, 'Back');
+        } else if (this.scoreBtn.getAttribute('status') == 'Back') {
+            this.statusSwitcher(this.scoreBtn, 'Score');
+        };
+    },
+
+    tuneBtns2: function () {
+        for (var sizeBtn of this.sizeBtns) {
+            if (sizeBtn.disabled) {
+                sizeBtn.disabled = false;
+            } else {
+                sizeBtn.disabled = true;
+            };
+        };
+        this.pointerEventSwitch(this.themeSelect, 'none');
+        this.pointerEventSwitch(this.startBtn, 'none');
     },
 
 };
