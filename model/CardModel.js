@@ -17,15 +17,20 @@ var CardModel = function () {
     this.startEvent = new Event(this);
     this.cardsToFlipEvent = new Event(this);
     this.cardsToRemoveEvent = new Event(this);
+
+    this.initUser();
 };
 
 CardModel.prototype = {
 
+    initUser: function () {
+        this.comonGameConditions();
+        this.setUser();
+    },
+
     /* -------------------- start ----------------- */
 
     start: function () {
-        this.comonGameConditions();
-        this.setUser();
         this.startEvent.notify();
     },
 
