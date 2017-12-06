@@ -17,6 +17,7 @@ var CardModel = function () {
     this.startEvent = new Event(this);
     this.cardsToFlipEvent = new Event(this);
     this.cardsToRemoveEvent = new Event(this);
+    this.showScoreEvent = new Event(this);
 
     this.initUser();
 };
@@ -96,6 +97,7 @@ CardModel.prototype = {
         this.savedCards = [];
         this.cardsToFlip = [];
         this.cardsToRemove = [];
+        this.comonGameConditions();
     },
 
     /* -------------------- win ----------------- */
@@ -104,6 +106,7 @@ CardModel.prototype = {
         this.scoreGenerate();
         this.collectTheResult();
         this.saveGameResults();
+        this.showScoreEvent.notify();
     },
 
     scoreGenerate: function () {

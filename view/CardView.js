@@ -48,6 +48,7 @@ CardView.prototype = {
         this.startHandler = this.startTimer.bind(this);
         this.cardsToFlipHandler = this.cardsToFlip.bind(this);
         this.cardsToRemoveHandler = this.cardsToRemove.bind(this);
+        this.showScoreHandler = this.showScore.bind(this);
 
         return this;
     },
@@ -65,6 +66,7 @@ CardView.prototype = {
         this.model.startEvent.attach(this.startHandler);
         this.model.cardsToFlipEvent.attach(this.cardsToFlipHandler);
         this.model.cardsToRemoveEvent.attach(this.cardsToRemoveHandler);
+        this.model.showScoreEvent.attach(this.showScoreHandler);
 
         return this;
     },
@@ -205,9 +207,18 @@ CardView.prototype = {
     },
 
     setCard: function () {
-        this.pointerEventSwitch(event.currentTarget, 'none');
         this.selectCardEvent.notify(event.currentTarget);
+        this.markCard(event.currentTarget);
         this.flipCard(event.currentTarget);
+        this.pointerEventSwitch(event.currentTarget, 'none');
+    },
+
+    markCard: function (card) {
+        if (card.status == 'none') {
+            card.status = 'selected';
+        } else if (card.status == 'selected') {
+            card.status = 'none';
+        };
     },
 
     /* -------------------- cardsToFlip ----------------- */
@@ -219,8 +230,10 @@ CardView.prototype = {
     flipBackCards: function () {
         this.flipCard(this.model.cardsToFlip[0][0]);
         this.pointerEventSwitch(this.model.cardsToFlip[0][0], 'none');
+        this.model.cardsToFlip[0][0].status = 'none';
         this.flipCard(this.model.cardsToFlip[0][1]);
         this.pointerEventSwitch(this.model.cardsToFlip[0][1], 'none');
+        this.model.cardsToFlip[0][1].status = 'none';
         this.model.cardsToFlip.splice(0, 1);
     },
 
@@ -261,6 +274,7 @@ CardView.prototype = {
             for (var j = 0; j < size; j++) {
                 var card = document.createElement('div');
                 card.className = 'card';
+                card.status = 'none';
                 card.style.left = (j * 480 / size) + 2 + 'px';
                 card.style.top = (i * 480 / size) + 2 + 60 + 'px';
                 card.style.height = (480 / size) - 4 + 'px';
@@ -312,15 +326,32 @@ CardView.prototype = {
             this.statusSwitcher(this.pauseBtn, 'Continue');
             clearInterval(this.gameTimeControl);
             for (var card of this.cards) {
-                this.pointerEventSwitch(card, 'none');
+                if (card.status != 'selected') {
+                    this.pointerEventSwitch(card, 'none');
+                };
             };
         } else if (this.pauseBtn.getAttribute('status') == 'Continue') {
             this.statusSwitcher(this.pauseBtn, 'Pause');
             this.startTimer();
             for (var card of this.cards) {
-                this.pointerEventSwitch(card, 'none');
+                if (card.status != 'selected') {
+                    this.pointerEventSwitch(card, 'none');
+                };
             };
         };
+    },
+
+    /* -------------------- win ----------------- */
+
+    showScore: function () {
+        this.pointerEventSwitch(this.startBtn, 'none');
+        this.pointerEventSwitch(this.pauseBtn, 'none');
+        this.pointerEventSwitch(this.scoreBtn, 'none');
+        this.statusSwitcher(this.startBtn, 'Start');
+        this.statusSwitcher(this.scoreBtn, 'Back');
+        this.resetBtnEvent.notify();
+        this.timerReset();
+        this.drawTable();
     },
 
     /* -------------------- scoreBtnMeth ----------------- */

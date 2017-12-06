@@ -111,10 +111,15 @@
 /* subblock 4 */
 
 .card {
+    user-select: none;
     position: absolute;
     overflow: hidden;
     background-color: #dd99ff;
     border-radius: 6px;
+}
+
+.card img {
+    user-select: none;
 }
 
 /* scoreTable */
