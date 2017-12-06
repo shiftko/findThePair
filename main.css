@@ -17,6 +17,8 @@
 
 #puzzleBody {
     background-color: aliceblue;
+    text-align: center;
+    overflow: auto;
     height: 480px;
     width: 480px;
 }
@@ -113,4 +115,15 @@
     overflow: hidden;
     background-color: #dd99ff;
     border-radius: 6px;
+}
+
+/* scoreTable */
+
+#scoreTable {
+    display: inline-block;
+}
+
+#scoreTable th,
+#scoreTable td {
+    padding: 5px 15px;
 }

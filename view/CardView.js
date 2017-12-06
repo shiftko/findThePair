@@ -299,9 +299,9 @@ CardView.prototype = {
     },
 
     clearBody: function () {
-        var iterations = this.cards.length;
+        var iterations = this.puzzleBody.childNodes.length;
         for (var i = 0; i < iterations; i++) {
-            this.cards[0].remove();
+            this.puzzleBody.childNodes[0].remove();
         };
     },
 
@@ -327,10 +327,15 @@ CardView.prototype = {
 
     scoreBtnMeth: function () {
         this.tuneBtns2();
+        if (this.puzzleBody.childNodes.length != 0) {
+            this.clearBody();
+        };
         if (this.scoreBtn.getAttribute('status') == 'Score') {
             this.statusSwitcher(this.scoreBtn, 'Back');
+            this.drawTable();
         } else if (this.scoreBtn.getAttribute('status') == 'Back') {
             this.statusSwitcher(this.scoreBtn, 'Score');
+            this.resetCards();
         };
     },
 
@@ -345,5 +350,49 @@ CardView.prototype = {
         this.pointerEventSwitch(this.themeSelect, 'none');
         this.pointerEventSwitch(this.startBtn, 'none');
     },
+
+    drawTable: function () {
+        this.createTable();
+        this.fillinTheTable();
+    },
+
+    createTable: function () {
+        let tab = document.createElement('table');
+        this.puzzleBody.appendChild(tab);
+
+        tab.id = "scoreTable";
+
+        this.scoreTable = document.getElementById('scoreTable');
+
+        let headers = ['order', 'user', 'time', 'attempts', 'score'];
+        this.scoreConstructor('th', headers);
+    },
+
+    scoreConstructor: function (blocksType, fillers) {
+        let mainBlock = document.createElement('tr');
+        mainBlock.className = 'scoreTableBlock';
+
+        for (var filler of fillers) {
+            let subblock = document.createElement(blocksType);
+            let subblockFiller = document.createTextNode(filler);
+            subblock.appendChild(subblockFiller);
+            mainBlock.appendChild(subblock);
+        };
+
+        this.scoreTable.appendChild(mainBlock);
+    },
+
+    fillinTheTable: function () {
+        for (var user of this.model.savedGame) {
+            let userResults = [
+                user.userOrder,
+                user.userName,
+                user.gameTime,
+                user.numberOfAttempts,
+                user.score
+            ];
+            this.scoreConstructor('td', userResults);
+        };
+    }
 
 };
