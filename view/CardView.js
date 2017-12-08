@@ -176,13 +176,16 @@ CardView.prototype = {
     flipCard: function (card) {
         card.animate([
             {
-                transform: "scaleX(1)"
+                transform: "scaleX(1)",
+                background: "#dd99ff"
             },
             {
-                transform: "scaleX(0)"
+                transform: "scaleX(0)",
+                background: "#111"
             },
             {
-                transform: "scaleX(1)"
+                transform: "scaleX(1)",
+                background: "#dd99ff"
             }
         ], 600);
         setTimeout(this.removeImage(card), 300);
@@ -305,7 +308,7 @@ CardView.prototype = {
     setImages: function (blockNo, imageNo) {
         var block = this.cards[blockNo];
         var image = document.createElement('img');
-        image.setAttribute('src', `/images/images/${imgList[imageNo]}`);
+        image.setAttribute('src', `images/images/${imgList[imageNo]}`);
         image.setAttribute('alt', 'img');
         image.style.height = "100%";
         image.style.width = "100%";
