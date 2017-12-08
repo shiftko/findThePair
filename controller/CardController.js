@@ -43,8 +43,8 @@ CardController.prototype = {
         this.model.reset();
     },
 
-    win: function () {
-        this.model.win();
+    win: function (sender, args) {
+        this.model.win(args);
     }
 
     /* --------------------  ----------------- */

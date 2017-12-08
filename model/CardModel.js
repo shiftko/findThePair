@@ -5,6 +5,7 @@ var CardModel = function () {
     this.numberOfAttempts;
     this.gameTime;
     this.score;
+    this.date;
 
     this.savedCards = [];
     this.cardsOfTwo;
@@ -32,6 +33,7 @@ CardModel.prototype = {
     /* -------------------- start ----------------- */
 
     start: function () {
+        this.initUser();
         this.startEvent.notify();
     },
 
@@ -102,29 +104,40 @@ CardModel.prototype = {
 
     /* -------------------- win ----------------- */
 
-    win: function () {
+    win: function (mapSize) {
         this.scoreGenerate();
-        this.collectTheResult();
+        this.prepareDate();
+        this.collectTheResult(mapSize);
         this.saveGameResults();
         this.showScoreEvent.notify();
     },
 
     scoreGenerate: function () {
-        this.score = Math.trunc(540000 / (this.numberOfAttempts * 3 + this.gameTime));
+        this.score = Math.trunc(2160000 / (this.numberOfAttempts * 3 + this.gameTime));
     },
 
-    collectTheResult: function () {
+    collectTheResult: function (mapSize) {
         this.currentGameResult = {
             userOrder: this.userOrder,
             userName: this.userName,
             gameTime: this.gameTime,
             numberOfAttempts: this.numberOfAttempts,
-            score: this.score
+            score: this.score,
+            mapSize: mapSize,
+            date: this.date
         };
     },
 
     saveGameResults: function () {
         this.savedGame.push(this.currentGameResult);
         localStorage.setItem('findThePairIvnDmr', JSON.stringify(this.savedGame));
+    },
+
+    prepareDate: function () {
+        let today = new Date();
+        let day = today.getDate() + "";
+        let month = today.getMonth() + 1 + "";
+        let year = today.getFullYear() + "";
+        this.date = day + "." + month + "." + year;
     }
 };

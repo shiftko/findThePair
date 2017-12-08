@@ -26,6 +26,7 @@ CardView.prototype = {
         this.themeSelect = document.getElementById('themeSelect');
         this.scoreBtn = document.getElementById('scoreBtn');
         this.timer = document.getElementById('timer');
+        this.resultBtns = document.getElementById('resultBtns');
         this.timerValue = document.querySelector('#timer h1');
         this.puzzleBody = document.getElementById('puzzleBody');
         this.sizeBtns = document.querySelectorAll('.selectSize input[name=size]');
@@ -276,7 +277,11 @@ CardView.prototype = {
         this.cards = document.getElementsByClassName('card');
         if (this.cards.length == 0) {
             clearInterval(this.gameTimeControl);
-            this.winEvent.notify();
+            for (var sizeBtn of this.sizeBtns) {
+                if (sizeBtn.checked) {
+                    this.winEvent.notify(sizeBtn.getAttribute('size'));
+                }
+            }
         };
     },
 
@@ -371,7 +376,10 @@ CardView.prototype = {
         this.statusSwitcher(this.scoreBtn, 'Back');
         this.resetBtnEvent.notify();
         this.timerReset();
-        this.drawTable();
+        //        this.scoreBtn.click();
+        this.showResultBtnsSwitch();
+        this.setResultBtnsEvent();
+        this.showLastResult();
     },
 
     /* -------------------- scoreBtnMeth ----------------- */
@@ -383,9 +391,11 @@ CardView.prototype = {
         };
         if (this.scoreBtn.getAttribute('status') == 'Score') {
             this.statusSwitcher(this.scoreBtn, 'Back');
-            this.drawTable();
+            this.showResultBtnsSwitch();
+            this.setResultBtnsEvent();
         } else if (this.scoreBtn.getAttribute('status') == 'Back') {
             this.statusSwitcher(this.scoreBtn, 'Score');
+            this.showResultBtnsSwitch();
             this.resetCards();
         };
     },
@@ -402,9 +412,15 @@ CardView.prototype = {
         this.pointerEventSwitch(this.startBtn, 'none');
     },
 
-    drawTable: function () {
-        this.createTable();
-        this.fillinTheTable();
+    drawTable: function (size) {
+        if (this.scoreTable == undefined) {
+            this.createTable();
+            this.fillinTheTable(size);
+        } else {
+            this.scoreTable.remove();
+            this.createTable();
+            this.fillinTheTable(size);
+        }
     },
 
     createTable: function () {
@@ -412,10 +428,11 @@ CardView.prototype = {
         this.puzzleBody.appendChild(tab);
 
         tab.id = "scoreTable";
+        tab.style.marginTop = "60px";
 
         this.scoreTable = document.getElementById('scoreTable');
 
-        let headers = ['order', 'user', 'time', 'attempts', 'score'];
+        let headers = ['date', 'user', 'time', 'attempts', 'score'];
         this.scoreConstructor('th', headers);
     },
 
@@ -433,16 +450,54 @@ CardView.prototype = {
         this.scoreTable.appendChild(mainBlock);
     },
 
-    fillinTheTable: function () {
+    fillinTheTable: function (size) {
+        var resultsToDraw = [];
         for (var user of this.model.savedGame) {
+            if (user.mapSize == size) {
+                resultsToDraw.push(user);
+            };
+        };
+        for (var user of resultsToDraw) {
             let userResults = [
-                user.userOrder,
+                user.date,
                 user.userName,
                 user.gameTime,
                 user.numberOfAttempts,
                 user.score
             ];
             this.scoreConstructor('td', userResults);
+        };
+    },
+
+    /* -----------------------showResultBtnsSwitch----------------------- */
+
+    showResultBtnsSwitch: function () {
+        if (this.resultBtns.style.display == "") {
+            this.resultBtns.style.display = "block";
+        } else if (this.resultBtns.style.display == "block") {
+            this.resultBtns.style.display = "";
+        };
+    },
+
+    setResultBtnsEvent: function () {
+        var btns = document.querySelectorAll("div#resultBtns a");
+        for (var btn of btns) {
+            btn.addEventListener('click', this.startDrawTable.bind(this));
+        };
+    },
+
+    startDrawTable: function () {
+        var size = event.target.getAttribute('size');
+        this.drawTable(size);
+    },
+
+    showLastResult: function () {
+        var lastResult = this.model.savedGame[this.model.savedGame.length - 1];
+        var btns = document.querySelectorAll("div#resultBtns a");
+        for (var btn of btns) {
+            if (btn.getAttribute('size') == lastResult.mapSize) {
+                btn.click();
+            };
         };
     }
 

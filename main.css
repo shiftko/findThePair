@@ -132,3 +132,27 @@
 #scoreTable td {
     padding: 5px 15px;
 }
+
+/* resultBtns */
+
+#resultBtns {
+    display: none;
+    position: absolute;
+    margin: 20px 10px;
+    text-align: center;
+    width: calc(100% - 20px);
+    left: 0px;
+    top: 60px;
+}
+
+#resultBtns a {
+    margin: 0px 20px;
+    text-align: center;
+    text-decoration: none;
+    user-select: none;
+    border-radius: 10px;
+    padding: 5px 10px;
+    font-size: 14px;
+    background-color: #e6e6e6;
+    color: black;
+}
