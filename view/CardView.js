@@ -191,6 +191,17 @@ CardView.prototype = {
         setTimeout(this.removeImage(card), 300);
     },
 
+    cardsToRemoveAnimation: function (card) {
+        card.animate([
+            {
+                opacity: "1"
+            },
+            {
+                opacity: "0"
+            }
+        ], 600);
+    },
+
     removeImage: function (card) {
         return function () {
             if (card.childNodes[0].style.display == '') {
@@ -243,7 +254,13 @@ CardView.prototype = {
     /* -------------------- cardsToRemove ----------------- */
 
     cardsToRemove: function () {
-        setTimeout(this.removeCards.bind(this), 1000);
+        setTimeout(this.removeCards.bind(this), 1200);
+        setTimeout(this.cardsToRemoveAnimate.bind(this), 600);
+    },
+
+    cardsToRemoveAnimate: function () {
+        this.cardsToRemoveAnimation(this.model.cardsToRemove[0][0]);
+        this.cardsToRemoveAnimation(this.model.cardsToRemove[0][1]);
     },
 
     removeCards: function () {
