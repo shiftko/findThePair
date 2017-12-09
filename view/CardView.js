@@ -514,6 +514,7 @@ CardView.prototype = {
         if (this.themeSelect.getAttribute('status') == 'Theme') {
             this.statusSwitcher(this.themeSelect, 'Back');
             this.showThemeBtns();
+            this.setThemeBtnsEvent();
         } else if (this.themeSelect.getAttribute('status') == 'Back') {
             this.statusSwitcher(this.themeSelect, 'Theme');
             this.showThemeBtns();
@@ -539,6 +540,57 @@ CardView.prototype = {
         } else if (this.themeBtns.style.display == "block") {
             this.themeBtns.style.display = "";
         };
+    },
+
+    setThemeBtnsEvent: function () {
+        var btns = document.querySelectorAll("div#themeBtns a");
+        for (var btn of btns) {
+            btn.addEventListener('click', this.selectTheme.bind(this));
+        };
+    },
+
+    selectTheme: function () {
+        var selectedTheme = event.target.getAttribute('theme');
+        for (var theme of themeList) {
+            if (theme.themeName == selectedTheme) {
+                this.applyTheme(theme);
+            };
+        };
+    },
+
+    applyTheme: function (theme) {
+        console.log('selected Theme ' + theme.themeName);
+
+        var sizeBtnsTxt = document.querySelectorAll('.selectSize label');
+        for (var btnTxt of sizeBtnsTxt) {
+            btnTxt.style.color = theme.sizeBtnsTextCol;
+        };
+
+        var selectSizeCol = document.getElementsByClassName('selectCol');
+        var firstCol = selectSizeCol[0];
+        var secondCol = selectSizeCol[1];
+        firstCol.style.backgroundColor = theme.sizeBtnsBlock1Col;
+        secondCol.style.backgroundColor = theme.sizeBtnsBlock2Col;
+
+        var controlBtnsText = document.querySelectorAll('.controlBtns a');
+        for (var btnTxt of controlBtnsText) {
+            btnTxt.style.color = theme.controlBtnsTextCol;
+            btnTxt.style.backgroundColor = theme.controlBtnsBackgroundCol;
+        };
+
+        var controlBtnsBlocks = document.getElementsByClassName('block');
+        var block1 = controlBtnsBlocks[0];
+        var block2 = controlBtnsBlocks[1];
+        block1.style.backgroundColor = theme.controlBtnsBlock1Col;
+        block2.style.backgroundColor = theme.controlBtnsBlock2Col;
+
+        var timerTextCol = document.querySelector('#timer h1');
+        timerTextCol.style.color = theme.timerTextCol;
+
+        this.timer.style.backgroundColor = theme.timerBlockCol;
+
+        this.puzzleBody.style.backgroundColor = theme.puzzleBodyBlockCol;
+
     }
 
 };
