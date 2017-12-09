@@ -27,6 +27,7 @@ CardView.prototype = {
         this.scoreBtn = document.getElementById('scoreBtn');
         this.timer = document.getElementById('timer');
         this.resultBtns = document.getElementById('resultBtns');
+        this.themeBtns = document.getElementById('themeBtns');
         this.timerValue = document.querySelector('#timer h1');
         this.puzzleBody = document.getElementById('puzzleBody');
         this.sizeBtns = document.querySelectorAll('.selectSize input[name=size]');
@@ -43,6 +44,7 @@ CardView.prototype = {
         this.pauseBtnHandler = this.pauseBtnMeth.bind(this);
         this.setCardEventHandler = this.setCard.bind(this);
         this.scoreBtnHandler = this.scoreBtnMeth.bind(this);
+        this.themeSelectHandler = this.themeSelectMeth.bind(this);
 
         /* Handlers from Event Dispatcher */
 
@@ -61,6 +63,7 @@ CardView.prototype = {
         };
         this.pauseBtn.addEventListener('click', this.pauseBtnHandler);
         this.scoreBtn.addEventListener('click', this.scoreBtnHandler);
+        this.themeSelect.addEventListener('click', this.themeSelectHandler);
 
         /* Event Dispatcher */
 
@@ -498,6 +501,43 @@ CardView.prototype = {
             if (btn.getAttribute('size') == lastResult.mapSize) {
                 btn.click();
             };
+        };
+    },
+
+    /* ----------------------- theme ----------------------- */
+
+    themeSelectMeth: function () {
+        this.tuneBtns3();
+        if (this.puzzleBody.childNodes.length != 0) {
+            this.clearBody();
+        };
+        if (this.themeSelect.getAttribute('status') == 'Theme') {
+            this.statusSwitcher(this.themeSelect, 'Back');
+            this.showThemeBtns();
+        } else if (this.themeSelect.getAttribute('status') == 'Back') {
+            this.statusSwitcher(this.themeSelect, 'Theme');
+            this.showThemeBtns();
+            this.resetCards();
+        };
+    },
+
+    tuneBtns3: function () {
+        for (var sizeBtn of this.sizeBtns) {
+            if (sizeBtn.disabled) {
+                sizeBtn.disabled = false;
+            } else {
+                sizeBtn.disabled = true;
+            };
+        };
+        this.pointerEventSwitch(this.scoreBtn, 'none');
+        this.pointerEventSwitch(this.startBtn, 'none');
+    },
+
+    showThemeBtns: function () {
+        if (this.themeBtns.style.display == "") {
+            this.themeBtns.style.display = "block";
+        } else if (this.themeBtns.style.display == "block") {
+            this.themeBtns.style.display = "";
         };
     }
 
